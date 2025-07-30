@@ -26,7 +26,18 @@ jobs:
           name: Run tests
           command: npm test
 
-#Todo : add publish job 
+  publish:
+    executor: docker/docker
+    steps:
+      - setup_remote_docker
+      - checkout
+      - docker/check
+      - docker/build:
+          image: sughrahassan/tamkeen-software
+          tag: v1.0.2
+      - docker/push:
+          image: sughrahassan/tamkeen-software
+          tag: v1.0.2
 
 workflows:
   simple_workflow:
@@ -35,3 +46,6 @@ workflows:
       - test:
           requires:
             - build
+      - publish:
+          requires:
+            -test

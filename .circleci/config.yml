@@ -15,7 +15,6 @@ jobs:
       - run:
           echo "Installing dependencies..."
           npm install 
-  
   test:
     docker:
       - image: cimg/node:16.10
@@ -26,7 +25,6 @@ jobs:
       - run:
           name: Run tests
           command: npm test
-
   publish:
     executor: docker/docker
     steps:
@@ -39,6 +37,19 @@ jobs:
       - docker/push:
           image: sughrahassan/tamkeen-software
           tag: v1.0.2
+  deploy:
+    docker:
+      - image: cimg/node:16.10
+    steps:
+      -setup_remote_docker
+      - checkout
+      - run:
+          name: Render push
+          command: |
+            curl "https://api.render.com/deploy/srv-d25h2o3uibrs73akib7g?key=6AYWJOOgSZg"
+
+
+
 
 workflows:
   simple_workflow:
@@ -50,3 +61,7 @@ workflows:
       - publish:
           requires:
             - test
+      
+      - deploy:
+          requires:
+            - publish

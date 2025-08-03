@@ -72,7 +72,7 @@ jobs:
       - setup_remote_docker
       - docker/check
       - run: docker build -t $IMAGE_NAME .
-      - snyk/install:
+      - snyk/install
       - run: |
           synk code test
 

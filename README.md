@@ -30,3 +30,9 @@ The `npm run start` command will start the application. By default, it will use 
 Listening to port <port number>
 ```
 
+## CI/CD
+
+This project uses **CircleCI** and **GitHub Actions** for continuous integration and delivery:
+
+- **CircleCI**: Automated workflows for building, testing, publishing Docker images, code scanning, and deployment. See [.circleci/config.yml](.circleci/config.yml) for details.
+- **GitHub Actions**: Additional workflows for CI/CD are defined in [.github/workflows/cicd.yml](.github/workflows/cicd.yml).

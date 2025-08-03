@@ -63,6 +63,19 @@ jobs:
           severity-threshold: high
           fail-on-issues: false
 
+  codescan:
+    docker:
+    - image: cimg/node:16.10
+    environment:
+      IMAGE_NAME: sughrahassan/tamkeen-software
+    steps:
+      - checkout
+      - setup_remote_docker
+      - docker/check
+      - run: docker build -t $IMAGE_NAME .
+      - snyk/install:
+      - run: |
+          synk code test
 
 
 
@@ -79,7 +92,7 @@ workflows:
           requires:
             - test
   
-      - scan:
+      - codescan:
           requires:
             - build
       # - deploy:

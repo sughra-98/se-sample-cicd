@@ -74,7 +74,7 @@ jobs:
       - run: docker build -t $IMAGE_NAME .
       - snyk/install
       - run: |
-          synk code test
+          snyk code test
 
 
 

@@ -78,22 +78,108 @@ jobs:
 
 
 
-
-
 workflows:
+  version: 2
   simple_workflow:
     jobs:
-      - build
+      # === CI Pipeline (main branch only) ===
+      - build:
+          filters:
+            branches:
+              only: main
       - test:
           requires:
             - build
+          filters:
+            branches:
+              only: main
       - publish:
           requires:
             - test
-  
-      - codescan:
+          filters:
+            branches:
+              only: main
+
+      # === Full CICD Pipeline (release branch only) ===
+      - build:
+          name: build-release
+          filters:
+            branches:
+              only: release
+      - test:
+          name: test-release
           requires:
-            - build
-      # - deploy:
-      #     requires:
-      #       - test
+            - build-release
+          filters:
+            branches:
+              only: release
+      - publish:
+          name: publish-release
+          requires:
+            - test-release
+          filters:
+            branches:
+              only: release
+      - deploy:
+          requires:
+            - test-release
+          filters:
+            branches:
+              only: release
+
+      # === Code scanning (both main & release) ===
+      - codescan:
+          filters:
+            branches:
+              only:
+                - main
+                - release
+
+
+
+
+# workflows:
+#   simple_workflow:
+#     jobs:
+#       - build:
+#           filters:
+#             branches:
+#               only: 
+#                 - main
+#                 - release
+#       - test:
+#           requires:
+#             - build
+#           filters:
+#             branches:
+#               only: 
+#                 - main
+#                 - release
+
+#       - publish:
+#           requires:
+#             - test
+#           filters:
+#             branches:
+#               only: 
+#                 - main
+#                 - release
+  
+
+#       - deploy:
+#           requires:
+#             - test
+#           filters:
+#             branches:
+#               only: release
+
+#       - codescan:
+#           requires:
+#             - build
+#           filters:
+#             branches:
+#               only: 
+#                 - main
+#                 - release
+
+

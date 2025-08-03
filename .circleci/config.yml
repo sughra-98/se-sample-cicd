@@ -62,7 +62,6 @@ jobs:
           docker-image-name: $IMAGE_NAME
           severity-threshold: high
           fail-on-issues: false
-
   codescan:
     docker:
       - image: cimg/node:16.10
